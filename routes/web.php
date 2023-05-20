@@ -10,7 +10,7 @@ Route::get('/sitemap.xml', static function () {
 });
 
 if (App::environment() !== 'production') {
-    Route::get('/sitemap-generate', static function () {
+    Route::get('/generate-sitemap', static function () {
         Spatie\Sitemap\SitemapGenerator::create(config('laravel-sitemap.url_to_be_crawled'))
             ->writeToFile('sitemap.xml');
     });
