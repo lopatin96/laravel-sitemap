@@ -2,6 +2,6 @@
 
 return [
 
-    'url_to_be_crawled' => '',
+    'url_to_be_crawled' => null,
 
 ];

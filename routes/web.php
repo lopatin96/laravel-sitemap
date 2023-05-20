@@ -10,8 +10,8 @@ Route::get('/sitemap.xml', static function () {
 });
 
 if (App::environment() !== 'production') {
-    Route::get('/sitemap', static function () {
-        SitemapGenerator::create('https://antiplagiarism.online')
+    Route::get('/sitemap-generate', static function () {
+        Spatie\Sitemap\SitemapGenerator::create(config('laravel-sitemap.url_to_be_crawled'))
             ->writeToFile('sitemap.xml');
     });
 }
