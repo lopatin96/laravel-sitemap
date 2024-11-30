@@ -23,7 +23,7 @@
   ],
   "require": {
     "php": ">=8.0",
-    "spatie/laravel-sitemap": "^6.2"
+    "spatie/laravel-sitemap": "^6.4"
   },
   "require-dev": {
     "orchestra/testbench": "^8.0"

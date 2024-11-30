@@ -15,6 +15,8 @@ class SitemapProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel-sitemap');
+
         $this->publishes([
             __DIR__.'/../config/config.php' => config_path('laravel-sitemap.php')
         ], 'laravel-sitemap-config');

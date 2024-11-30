@@ -1,17 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
-Route::get('/sitemap.xml', static function () {
-    return response()->redirectTo(config('app.asset_url').'/sitemap.xml', 302, [
-        'Content-Type' => 'text/plain',
-        'Cache-Control' => 'public, max-age=3600',
+Route::get('/sitemap', static function () {
+    $content = Storage::disk('s3')->get('sitemaps/sitemap.xml');
+
+    // Возврат файла с корректными заголовками
+    return response($content, 200, [
+        'Content-Type' => 'application/xml',
+        'Content-Disposition' => 'attachment; filename="sitemap.xml"',
     ]);
 });
-
-if (App::environment() !== 'production') {
-    Route::get('/generate-sitemap', static function () {
-        Spatie\Sitemap\SitemapGenerator::create(config('laravel-sitemap.url_to_be_crawled'))
-            ->writeToFile('sitemap.xml');
-    });
-}
