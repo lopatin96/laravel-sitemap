@@ -2,8 +2,6 @@
 
 return [
 
-    'path' => 'sitemaps/sitemap.xml',
-
     'default_urls' => [
         [
             'url' => '/',

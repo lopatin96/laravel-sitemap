@@ -1,36 +1,29 @@
 <?php
 
-namespace Atin\LaravelSitemap\Console;
+namespace Atin\LaravelSitemap\Services;
 
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Atin\LaravelBlog\Models\Post;
 
-class GenerateSitemap
+class SitemapGenerator
 {
     private Sitemap $sitemap;
-    
-    private array $customUrls;
 
-    public function __construct(array $customUrls = [])
+    public function __construct()
     {
         $this->sitemap = Sitemap::create();
-        $this->customUrls = $customUrls;
+        $this->generate();
     }
 
-    public function __invoke(): void
+    public function generate(): void
     {
         $this->addDefaultUrls();
 
         $this->addLocales();
 
         $this->addBlogPosts();
-
-        $this->addCustomUrls();
-
-        $this->save();
     }
 
     private function addDefaultUrls(): void
@@ -68,21 +61,9 @@ class GenerateSitemap
             });
         }
     }
-    
-    private function addCustomUrls(): void
-    {
-        foreach ($this->customUrls as $item) {
-            if (is_array($item) && isset($item['url'], $item['last_modified'])) {
-                $this->sitemap->add(
-                    Url::create(url($item['url']))
-                        ->setLastModificationDate(Carbon::parse($item['last_modified']))
-                );
-            }
-        }
-    }
 
-    private function save(): void
+    public function render(): string
     {
-        Storage::disk('s3')->put(config('laravel-sitemap.path'), $this->sitemap->render(), 'public');
+        return $this->sitemap->render();
     }
 }
