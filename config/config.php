@@ -2,6 +2,8 @@
 
 return [
 
+    'custom_pages' => false,
+
     'default_urls' => [
         [
             'url' => '/',
